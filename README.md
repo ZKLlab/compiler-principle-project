@@ -2,6 +2,12 @@
 
 ---
 
+A naive PL/0 compiler for a *Compiler Principle* course.
+
+| CI | Status |
+| :---: | :---: |
+| Github Actions | [![CMake](https://github.com/ZKLlab/compiler-principle-project/actions/workflows/cmake.yml/badge.svg)](https://github.com/ZKLlab/compiler-principle-project/actions/workflows/cmake.yml) |
+
 **进度：**
 
 - [x] 识别标识符
@@ -16,3 +22,4 @@
 **许可证：**
 
 MIT
+
