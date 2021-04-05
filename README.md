@@ -6,7 +6,7 @@ A naive PL/0 compiler for a *Compiler Principle* course.
 
 | CI | Status |
 | :---: | :---: |
-| Github Actions | [![CMake](https://github.com/ZKLlab/compiler-principle-project/actions/workflows/cmake.yml/badge.svg)](https://github.com/ZKLlab/compiler-principle-project/actions/workflows/cmake.yml) |
+| Github Actions | ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/ZKLlab/compiler-principle-project/CMake/main?style=flat-square) |
 
 **进度：**
 
