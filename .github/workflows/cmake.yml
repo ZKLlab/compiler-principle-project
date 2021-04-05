@@ -1,0 +1,36 @@
+name: CMake
+
+on: [push]
+
+env:
+  BUILD_TYPE: Release
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{github.workspace}}/build
+
+    - name: Configure CMake
+      shell: bash
+      working-directory: ${{github.workspace}}/build
+      run: cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -G "CodeBlocks - Unix Makefiles" $GITHUB_WORKSPACE
+
+    - name: Build
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: cmake --build . --config $BUILD_TYPE
+
+    - name: Test Identifiers Counters
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: ctest -C $BUILD_TYPE --extra-verbose -L identifiers_counter
+
+    - name: Test Lexical Analyzer
+      working-directory: ${{github.workspace}}/build
+      shell: bash
+      run: ctest -C $BUILD_TYPE --extra-verbose -L lexical_analyzer
