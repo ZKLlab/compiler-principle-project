@@ -51,58 +51,79 @@ namespace MyCompiler
                     buffer.push_back(stream.get());
                     state = State::NUM;
                 }
+                else if (c == '+')
+                {
+                    stream.get();
+                    return Token(ST::PLUS, "+");
+                }
+                else if (c == '-')
+                {
+                    stream.get();
+                    return Token(ST::MINUS, "-");
+                }
+                else if (c == '*')
+                {
+                    stream.get();
+                    return Token(ST::TIMES, "*");
+                }
+                else if (c == '/')
+                {
+                    stream.get();
+                    return Token(ST::SLASH, "/");
+                }
+                else if (c == '=')
+                {
+                    stream.get();
+                    return Token(ST::EQL, "=");
+                }
+                else if (c == '#')
+                {
+                    stream.get();
+                    return Token(ST::NEQ, "#");
+                }
+                else if (c == '(')
+                {
+                    stream.get();
+                    return Token(ST::LPAREN, "(");
+                }
+                else if (c == ')')
+                {
+                    stream.get();
+                    return Token(ST::RPAREN, ")");
+                }
+                else if (c == ',')
+                {
+                    stream.get();
+                    return Token(ST::COMMA, ",");
+                }
+                else if (c == ';')
+                {
+                    stream.get();
+                    return Token(ST::SEMICOLON, ";");
+                }
+                else if (c == '.')
+                {
+                    stream.get();
+                    return Token(ST::PERIOD, ".");
+                }
+                else if (c == ':')
+                {
+                    stream.get();
+                    state = State::COLON;
+                }
+                else if (c == '<')
+                {
+                    stream.get();
+                    state = State::LT;
+                }
+                else if (c == '>')
+                {
+                    stream.get();
+                    state = State::GT;
+                }
                 else
                 {
-                    switch (c)
-                    {
-                        case '+':
-                            stream.get();
-                            return Token(ST::PLUS, "+");
-                        case '-':
-                            stream.get();
-                            return Token(ST::MINUS, "-");
-                        case '*':
-                            stream.get();
-                            return Token(ST::TIMES, "*");
-                        case '/':
-                            stream.get();
-                            return Token(ST::SLASH, "/");
-                        case '=':
-                            stream.get();
-                            return Token(ST::EQL, "=");
-                        case '#':
-                            stream.get();
-                            return Token(ST::NEQ, "#");
-                        case '(':
-                            stream.get();
-                            return Token(ST::LPAREN, "(");
-                        case ')':
-                            stream.get();
-                            return Token(ST::RPAREN, ")");
-                        case ',':
-                            stream.get();
-                            return Token(ST::COMMA, ",");
-                        case ';':
-                            stream.get();
-                            return Token(ST::SEMICOLON, ";");
-                        case '.':
-                            stream.get();
-                            return Token(ST::PERIOD, ".");
-                        case ':':
-                            stream.get();
-                            state = State::COLON;
-                            break;
-                        case '<':
-                            stream.get();
-                            state = State::LT;
-                            break;
-                        case '>':
-                            stream.get();
-                            state = State::GT;
-                            break;
-                        default:
-                            return Token(ST::NUL);
-                    }
+                    break;
                 }
             }
             else if (state == State::WORD)
@@ -143,7 +164,7 @@ namespace MyCompiler
                 else
                     break;
             }
-            else // if (state == COLON)
+            else // if (state == State::COLON)
             {
                 char c = stream.peek();
                 if (c == '=')
