@@ -7,6 +7,7 @@ env:
 
 jobs:
   build:
+    name: Build
     runs-on: ubuntu-latest
 
     steps:
@@ -24,13 +25,47 @@ jobs:
       working-directory: ${{github.workspace}}/build
       shell: bash
       run: cmake --build . --config $BUILD_TYPE
+    
+    - name: Upload the Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: ${{github.workspace}}/build
+
+  test_identifiers_counter:
+    name: Test Identifiers Counter
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download the Build Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build
+        path: ${{github.workspace}}/build
 
     - name: Test Identifiers Counters
       working-directory: ${{github.workspace}}/build
       shell: bash
-      run: ctest -C $BUILD_TYPE --extra-verbose -L identifiers_counter
+      run: chmod u+x ./test_identifiers_counter && ctest -C $BUILD_TYPE --extra-verbose -L identifiers_counter
+
+  test_lexical_analyzer:
+    name: Test Lexical Analyzer
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Download the Build Artifact
+      uses: actions/download-artifact@v2
+      with:
+        name: build
+        path: ${{github.workspace}}/build
 
     - name: Test Lexical Analyzer
       working-directory: ${{github.workspace}}/build
       shell: bash
-      run: ctest -C $BUILD_TYPE --extra-verbose -L lexical_analyzer
+      run: chmod u+x ./test_lexical_analyzer && ctest -C $BUILD_TYPE --extra-verbose -L lexical_analyzer
