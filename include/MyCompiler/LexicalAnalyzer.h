@@ -126,7 +126,7 @@ namespace MyCompiler
                 }
                 else
                 {
-                    throw LexicalError(stream.tellg() + 1ll);
+                    throw LexicalError(stream.tellg() + std::ios::pos_type(1));
                 }
             }
             else if (state == State::WORD)

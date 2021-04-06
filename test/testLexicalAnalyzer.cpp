@@ -62,7 +62,7 @@ int analyze()
         catch (LexicalError &err)
         {
             std::clog << line << std::endl;
-            std::clog << std::setw(err.getOffset()) << "^" << std::endl;
+            std::clog << std::setw(int(err.getOffset())) << "^" << std::endl;
             std::clog << "Line [" << lineNum << "]: LexicalError: " << err.what() << std::endl;
             return 1;
         }
