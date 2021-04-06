@@ -1,0 +1,3 @@
+                  r := m - （q * n;
+                           ^
+Line [7]: LexicalError: invalid token
