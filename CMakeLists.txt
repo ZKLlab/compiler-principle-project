@@ -17,11 +17,11 @@ foreach (label ${LABELS})
     foreach (case ${CASES})
         add_test(
                 NAME ${label}__${case}
-                WORKING_DIRECTORY ../test
+                WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/Cases/${case}"
                 COMMAND bash -c "set -o pipefail; \
-                    ( ( \"$<TARGET_FILE:test_${label}>\" \"Cases/${case}/${case}.in\" || true ) 2>&3 \
-                    | \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) \"Cases/${case}/${label}.out\" ) 3>&1 \
-                    | \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) \"Cases/${case}/${label}.err\""
+                    ( ( \"$<TARGET_FILE:test_${label}>\" ${case}.in || true ) 2>&3 \
+                    | \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) ${label}.out ) 3>&1 \
+                    | \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) ${label}.err"
         )
         set_tests_properties(${label}__${case} PROPERTIES LABELS ${label})
     endforeach ()
