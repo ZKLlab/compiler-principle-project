@@ -17,7 +17,7 @@ foreach (case ${IDENTIFIERS_COUNTER_CASES})
     add_test(
             NAME identifiers_counter__${case}
             WORKING_DIRECTORY ../test
-            COMMAND sh -c "set -o pipefail; \
+            COMMAND bash -c "set -o pipefail; \
             ( ( $<TARGET_FILE:test_identifiers_counter> Cases/${case}/${case}.in; true ) 2>&3 \
               | tee /dev/stderr | diff -ibBa - Cases/${case}/identifiers_counter.out >/dev/null) 3>&1 \
             | tee /dev/stderr | diff -ibBa - Cases/${case}/identifiers_counter.err >/dev/null"
@@ -35,7 +35,7 @@ foreach (case ${LEXICAL_ANALYZER_CASES})
     add_test(
             NAME lexical_analyzer__${case}
             WORKING_DIRECTORY ../test
-            COMMAND sh -c "set -o pipefail; \
+            COMMAND bash -c "set -o pipefail; \
             ( ( $<TARGET_FILE:test_lexical_analyzer> Cases/${case}/${case}.in; true ) 2>&3 \
               | tee /dev/stderr | diff -ibBa - Cases/${case}/lexical_analyzer.out >/dev/null) 3>&1 1>&2 \
             | tee /dev/stderr | diff -ibBa - Cases/${case}/lexical_analyzer.err >/dev/null"
