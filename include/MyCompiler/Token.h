@@ -1,5 +1,5 @@
-#ifndef COMPILER_PRINCIPLE_PROJECT__TOKEN_H
-#define COMPILER_PRINCIPLE_PROJECT__TOKEN_H
+#ifndef MY_COMPILER__TOKEN_H
+#define MY_COMPILER__TOKEN_H
 
 #include <string>
 #include <utility>
@@ -33,4 +33,4 @@ namespace MyCompiler
     };
 }
 
-#endif // COMPILER_PRINCIPLE_PROJECT__TOKEN_H
+#endif // MY_COMPILER__TOKEN_H
