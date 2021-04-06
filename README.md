@@ -1,12 +1,12 @@
 **编译原理 PL/0 编译器**
 
----
-
 A naive PL/0 compiler for a *Compiler Principle* course.
 
-| CI | Status |
-| :---: | :---: |
-| Github Actions | ![GitHub Workflow Status (branch)](https://img.shields.io/github/workflow/status/ZKLlab/compiler-principle-project/CMake/main?style=flat-square) |
+---
+
+**CI:**
+
+[![CMake](https://github.com/ZKLlab/compiler-principle-project/actions/workflows/cmake.yml/badge.svg?branch=main)](https://github.com/ZKLlab/compiler-principle-project/actions/workflows/cmake.yml)
 
 **进度：**
 
