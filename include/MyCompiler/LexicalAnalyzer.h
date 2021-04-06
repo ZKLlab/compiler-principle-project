@@ -13,25 +13,42 @@ namespace MyCompiler
 {
     Token nextToken(std::istream &stream)
     {
-        typedef SymbolType ST;
         enum class State
         {
             START, WORD, NUM, LT, GT, COLON
         };
         static const std::unordered_map<std::string, SymbolType> keywordsMap = {
-                {"begin",     ST::BEGIN},
-                {"end",       ST::END},
-                {"if",        ST::IF},
-                {"then",      ST::THEN},
-                {"while",     ST::WHILE},
-                {"write",     ST::WRITE},
-                {"read",      ST::READ},
-                {"do",        ST::DO},
-                {"call",      ST::CALL},
-                {"const",     ST::CONST},
-                {"var",       ST::VAR},
-                {"procedure", ST::PROC},
-                {"odd",       ST::ODD}
+                {"begin",     SymbolType::BEGIN},
+                {"end",       SymbolType::END},
+                {"if",        SymbolType::IF},
+                {"then",      SymbolType::THEN},
+                {"while",     SymbolType::WHILE},
+                {"write",     SymbolType::WRITE},
+                {"read",      SymbolType::READ},
+                {"do",        SymbolType::DO},
+                {"call",      SymbolType::CALL},
+                {"const",     SymbolType::CONST},
+                {"var",       SymbolType::VAR},
+                {"procedure", SymbolType::PROC},
+                {"odd",       SymbolType::ODD}
+        };
+        static const std::unordered_map<char, SymbolType> startCharsSymbolTypeMap = {
+                {'+', SymbolType::PLUS},
+                {'-', SymbolType::MINUS},
+                {'*', SymbolType::TIMES},
+                {'/', SymbolType::SLASH},
+                {'=', SymbolType::EQL},
+                {'#', SymbolType::NEQ},
+                {'(', SymbolType::LPAREN},
+                {')', SymbolType::RPAREN},
+                {',', SymbolType::COMMA},
+                {';', SymbolType::SEMICOLON},
+                {'.', SymbolType::PERIOD}
+        };
+        static const std::unordered_map<char, State> startCharsStateMap = {
+                {'<', State::LT},
+                {'>', State::GT},
+                {':', State::COLON}
         };
 
         std::string buffer;
@@ -54,80 +71,18 @@ namespace MyCompiler
                     buffer.push_back(stream.get());
                     state = State::NUM;
                 }
-                else if (c == '+')
+                else if (startCharsSymbolTypeMap.find(c) != startCharsSymbolTypeMap.end())
                 {
                     stream.get();
-                    return Token(ST::PLUS, "+");
+                    return Token(startCharsSymbolTypeMap.at(c), std::string(1, c));
                 }
-                else if (c == '-')
+                else if (startCharsStateMap.find(c) != startCharsStateMap.end())
                 {
                     stream.get();
-                    return Token(ST::MINUS, "-");
-                }
-                else if (c == '*')
-                {
-                    stream.get();
-                    return Token(ST::TIMES, "*");
-                }
-                else if (c == '/')
-                {
-                    stream.get();
-                    return Token(ST::SLASH, "/");
-                }
-                else if (c == '=')
-                {
-                    stream.get();
-                    return Token(ST::EQL, "=");
-                }
-                else if (c == '#')
-                {
-                    stream.get();
-                    return Token(ST::NEQ, "#");
-                }
-                else if (c == '(')
-                {
-                    stream.get();
-                    return Token(ST::LPAREN, "(");
-                }
-                else if (c == ')')
-                {
-                    stream.get();
-                    return Token(ST::RPAREN, ")");
-                }
-                else if (c == ',')
-                {
-                    stream.get();
-                    return Token(ST::COMMA, ",");
-                }
-                else if (c == ';')
-                {
-                    stream.get();
-                    return Token(ST::SEMICOLON, ";");
-                }
-                else if (c == '.')
-                {
-                    stream.get();
-                    return Token(ST::PERIOD, ".");
-                }
-                else if (c == ':')
-                {
-                    stream.get();
-                    state = State::COLON;
-                }
-                else if (c == '<')
-                {
-                    stream.get();
-                    state = State::LT;
-                }
-                else if (c == '>')
-                {
-                    stream.get();
-                    state = State::GT;
+                    state = startCharsStateMap.at(c);
                 }
                 else
-                {
                     throw LexicalError(stream.tellg() + std::ios::pos_type(1));
-                }
             }
             else if (state == State::WORD)
             {
@@ -151,7 +106,7 @@ namespace MyCompiler
                 if (c == '=')
                 {
                     stream.get();
-                    return Token(ST::LEQ, "<=");
+                    return Token(SymbolType::LEQ, "<=");
                 }
                 else
                     break;
@@ -162,7 +117,7 @@ namespace MyCompiler
                 if (c == '=')
                 {
                     stream.get();
-                    return Token(ST::GEQ, ">=");
+                    return Token(SymbolType::GEQ, ">=");
                 }
                 else
                     break;
@@ -173,7 +128,7 @@ namespace MyCompiler
                 if (c == '=')
                 {
                     stream.get();
-                    return Token(ST::BECOMES, ":=");
+                    return Token(SymbolType::BECOMES, ":=");
                 }
                 else
                     break;
@@ -186,18 +141,18 @@ namespace MyCompiler
             if (search != keywordsMap.end())
                 return Token(search->second, buffer);
             else
-                return Token(ST::IDENT, buffer);
+                return Token(SymbolType::IDENT, buffer);
         }
         else if (state == State::NUM)
-            return Token(ST::NUMBER, buffer);
+            return Token(SymbolType::NUMBER, buffer);
         else if (state == State::LT)
-            return Token(ST::LSS, "<");
+            return Token(SymbolType::LSS, "<");
         else if (state == State::GT)
-            return Token(ST::GTR, ">");
+            return Token(SymbolType::GTR, ">");
         else if (state == State::COLON)
             throw LexicalError(stream.tellg());
         else
-            return Token(ST::NUL);
+            return Token(SymbolType::NUL);
     }
 }
 
