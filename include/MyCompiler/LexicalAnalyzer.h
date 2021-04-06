@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include "Token.h"
 #include "SymbolType.h"
+#include "LexicalError.h"
 
 namespace MyCompiler
 {
@@ -40,6 +41,8 @@ namespace MyCompiler
             if (state == State::START)
             {
                 std::ws(stream);
+                if (!stream.good())
+                    break;
                 char c = stream.peek();
                 if (std::isalpha(c))
                 {
@@ -123,7 +126,7 @@ namespace MyCompiler
                 }
                 else
                 {
-                    break;
+                    throw LexicalError(stream.tellg() + 1ll);
                 }
             }
             else if (state == State::WORD)
@@ -191,6 +194,8 @@ namespace MyCompiler
             return Token(ST::LSS, "<");
         else if (state == State::GT)
             return Token(ST::GTR, ">");
+        else if (state == State::COLON)
+            throw LexicalError(stream.tellg());
         else
             return Token(ST::NUL);
     }
