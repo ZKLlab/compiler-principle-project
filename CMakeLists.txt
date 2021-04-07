@@ -19,8 +19,8 @@ foreach (label ${LABELS})
                 NAME ${label}__${case}
                 WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}/test/Cases/${case}"
                 COMMAND bash -c "set -o pipefail && ( ( ( \"$<TARGET_FILE:test_${label}>\" ${case}.in || true ) 2>&3 \
-                    | \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) ${label}.out 2>&5 ) 2>&4 3>&1 \
-                    | \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) ${label}.err ) 4>&1 5>&2"
+| \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) ${label}.out 2>&5 ) 2>&4 3>&1 \
+| \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) ${label}.err ) 4>&1 5>&2"
         )
         set_tests_properties(${label}__${case} PROPERTIES LABELS ${label})
         set_tests_properties(${label}__${case} PROPERTIES TIMEOUT 5)
