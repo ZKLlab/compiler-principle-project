@@ -23,5 +23,6 @@ foreach (label ${LABELS})
                     | \"${CMAKE_COMMAND}\" -E compare_files --ignore-eol <( tee /dev/stderr ) ${label}.err ) 4>&1 5>&2"
         )
         set_tests_properties(${label}__${case} PROPERTIES LABELS ${label})
+        set_tests_properties(${label}__${case} PROPERTIES TIMEOUT 5)
     endforeach ()
 endforeach ()
