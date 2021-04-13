@@ -4,6 +4,9 @@ project(compiler_principle_project)
 set(CMAKE_CXX_STANDARD 14)
 
 include_directories(include)
+aux_source_directory("src/MyCompiler" SRC)
+add_library(MyCompiler STATIC ${SRC})
+link_libraries(MyCompiler)
 
 add_executable(test_identifiers_counter test/testIdentifiersCounter.cpp)
 add_executable(test_lexical_analyzer test/testLexicalAnalyzer.cpp)

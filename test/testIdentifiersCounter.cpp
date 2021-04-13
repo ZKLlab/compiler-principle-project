@@ -37,7 +37,7 @@ int countIdentifiers()
                 }
             }
         }
-        catch (LexicalError &err)
+        catch (MyCompiler::LexicalError &err)
         {
             std::clog << line << std::endl;
             std::clog << std::setw(int(err.getOffset())) << "^" << std::endl;

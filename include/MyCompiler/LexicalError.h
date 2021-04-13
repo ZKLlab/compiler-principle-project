@@ -4,19 +4,17 @@
 #include <ios>
 #include <stdexcept>
 
-class LexicalError : public std::runtime_error
+namespace MyCompiler
 {
-    std::ios::pos_type offset;
-
-public:
-    explicit LexicalError(std::ios::pos_type offset)
-            : std::runtime_error("invalid token"), offset(offset)
-    {}
-
-    std::ios::pos_type getOffset() const noexcept
+    class LexicalError : public std::runtime_error
     {
-        return offset;
-    }
-};
+        std::ios::pos_type offset;
+
+    public:
+        explicit LexicalError(std::ios::pos_type offset);
+
+        std::ios::pos_type getOffset() const noexcept;
+    };
+}
 
 #endif // MY_COMPILER__LEXICAL_ERROR_H

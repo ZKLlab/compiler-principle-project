@@ -13,23 +13,13 @@ namespace MyCompiler
         SymbolType symbolType;
         std::string value;
     public:
-        explicit Token(SymbolType symbolType)
-                : symbolType(symbolType)
-        {}
+        explicit Token(SymbolType symbolType);
 
-        explicit Token(SymbolType symbolType, std::string value)
-                : symbolType(symbolType), value(std::move(value))
-        {}
+        explicit Token(SymbolType symbolType, std::string value);
 
-        SymbolType getSymbolType() const
-        {
-            return symbolType;
-        }
+        SymbolType getSymbolType() const;
 
-        const std::string &getValue() const
-        {
-            return value;
-        }
+        const std::string &getValue() const;
     };
 }
 
