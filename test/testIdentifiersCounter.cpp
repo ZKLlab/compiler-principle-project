@@ -54,7 +54,7 @@ int countIdentifiers()
 
 int main(int argc, char *argv[])
 {
-    if (argc == 0)
+    if (argc == 1)
         return countIdentifiers();
     else
         for (int i = 1; i < argc; i++)
