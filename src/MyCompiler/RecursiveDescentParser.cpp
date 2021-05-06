@@ -1,77 +1,5 @@
 #include "MyCompiler/RecursiveDescentParser.h"
 
-#pragma region AstConstructors
-
-MyCompiler::AbstractAstNode::AbstractAstNode(std::string name)
-        : name(std::move(name))
-{}
-
-MyCompiler::Program::Program()
-        : AbstractAstNode("Program")
-{}
-
-MyCompiler::Block::Block()
-        : AbstractAstNode("Block")
-{}
-
-MyCompiler::ConstDeclaration::ConstDeclaration()
-        : AbstractAstNode("ConstDeclaration")
-{}
-
-MyCompiler::ConstDefinition::ConstDefinition()
-        : AbstractAstNode("ConstDefinition")
-{}
-
-MyCompiler::VarDeclaration::VarDeclaration()
-        : AbstractAstNode("VarDeclaration")
-{}
-
-MyCompiler::ProcedureDeclaration::ProcedureDeclaration()
-        : AbstractAstNode("ProcedureDeclaration")
-{}
-
-MyCompiler::Statement::Statement()
-        : AbstractAstNode("Statement")
-{}
-
-MyCompiler::Condition::Condition()
-        : AbstractAstNode("Condition")
-{}
-
-MyCompiler::Expression::Expression()
-        : AbstractAstNode("Expression")
-{}
-
-MyCompiler::Term::Term()
-        : AbstractAstNode("Term")
-{}
-
-MyCompiler::Factor::Factor()
-        : AbstractAstNode("Factor")
-{}
-
-MyCompiler::Ident::Ident()
-        : AbstractAstNode("Ident")
-{}
-
-MyCompiler::Number::Number()
-        : AbstractAstNode("Number")
-{}
-
-MyCompiler::RelOp::RelOp()
-        : AbstractAstNode("RelOp")
-{}
-
-MyCompiler::AddSubOp::AddSubOp()
-        : AbstractAstNode("AddSubOp")
-{}
-
-MyCompiler::MulDivOp::MulDivOp()
-        : AbstractAstNode("MulDivOp")
-{}
-
-#pragma endregion
-
 MyCompiler::RecursiveDescentParser::RecursiveDescentParser(std::istream &stream)
         : stream(stream), currentToken(SymbolType::NUL)
 {
@@ -82,7 +10,6 @@ void MyCompiler::RecursiveDescentParser::nextSym()
 {
     currentToken = nextToken(stream);
     sym = currentToken.getSymbolType();
-    std::cerr << currentToken.getValue() << std::endl;
 }
 
 bool MyCompiler::RecursiveDescentParser::accept(SymbolType symbolType)
@@ -327,8 +254,8 @@ std::shared_ptr<MyCompiler::Ident> MyCompiler::RecursiveDescentParser::parse()
 
     if (sym != SymbolType::IDENT)
         except(SymbolType::IDENT, "identifier expected");
-    pResult->name = currentToken.getValue();
-    accept(SymbolType::IDENT);
+    pResult->value = currentToken.getValue();
+    accept(sym);
 
     return pResult;
 }
@@ -345,8 +272,11 @@ std::shared_ptr<MyCompiler::Number> MyCompiler::RecursiveDescentParser::parse()
     in >> std::noshowbase >> std::setbase(10) >> val;
     if (in.fail())
         except(SymbolType::NUMBER, "this number is too large");
-    pResult->value = val;
-    accept(SymbolType::NUMBER);
+    pResult->num = val;
+    std::ostringstream out;
+    out << val;
+    pResult->value = out.str();
+    accept(sym);
 
     return pResult;
 }
@@ -359,8 +289,27 @@ std::shared_ptr<MyCompiler::RelOp> MyCompiler::RecursiveDescentParser::parse()
     if (sym == SymbolType::EQL || sym == SymbolType::NEQ || sym == SymbolType::LSS
         || sym == SymbolType::LEQ || sym == SymbolType::GTR || sym == SymbolType::GEQ)
     {
-        pResult->type = sym;
-        accept(pResult->type);
+        switch (sym)
+        {
+            case SymbolType::EQL:
+                pResult->value = "=";
+                break;
+            case SymbolType::NEQ:
+                pResult->value = "#";
+                break;
+            case SymbolType::LSS:
+                pResult->value = "<";
+                break;
+            case SymbolType::LEQ:
+                pResult->value = "<=";
+                break;
+            case SymbolType::GTR:
+                pResult->value = ">";
+                break;
+            default: // case SymbolType::GEQ:
+                pResult->value = ">=";
+        }
+        accept(sym);
     }
     else
         except(SymbolType::EQL, "relational operator expected");
@@ -373,9 +322,15 @@ std::shared_ptr<MyCompiler::AddSubOp> MyCompiler::RecursiveDescentParser::parse(
 {
     auto pResult = std::make_shared<AddSubOp>();
 
-    if (sym == SymbolType::PLUS || sym == SymbolType::MINUS)
-        pResult->type = sym;
-    accept(pResult->type);
+    switch (sym)
+    {
+        case SymbolType::PLUS:
+            pResult->value = "+";
+            break;
+        default: // case SymbolType::MINUS:
+            pResult->value = "-";
+    }
+    accept(sym);
 
     return pResult;
 }
@@ -385,9 +340,15 @@ std::shared_ptr<MyCompiler::MulDivOp> MyCompiler::RecursiveDescentParser::parse(
 {
     auto pResult = std::make_shared<MulDivOp>();
 
-    if (sym == SymbolType::TIMES || sym == SymbolType::SLASH)
-        pResult->type = sym;
-    accept(pResult->type);
+    switch (sym)
+    {
+        case SymbolType::TIMES:
+            pResult->value = "*";
+            break;
+        default: // case SymbolType::SLASH:
+            pResult->value = "/";
+    }
+    accept(sym);
 
     return pResult;
 }

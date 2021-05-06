@@ -2,13 +2,15 @@
 #include <iomanip>
 #include <iostream>
 #include "MyCompiler/RecursiveDescentParser.h"
+#include "MyCompiler/Util/AstToYaml.h"
 
 int parse()
 {
     MyCompiler::RecursiveDescentParser parser(std::cin);
     try
     {
-        std::cout << parser.parse<MyCompiler::Program>() << " ok" << std::endl;
+        auto pAst = parser.parse<MyCompiler::Program>();
+        std::cout << MyCompiler::Util::astToYaml(*pAst) << std::endl;
     }
     catch (MyCompiler::LexicalError &err)
     {

@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(include)
 aux_source_directory("src/MyCompiler" SRC)
+aux_source_directory("src/MyCompiler/Util" SRC)
 add_library(MyCompiler STATIC ${SRC})
 link_libraries(MyCompiler)
 
