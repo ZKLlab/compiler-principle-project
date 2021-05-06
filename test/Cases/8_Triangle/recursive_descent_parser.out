@@ -1,0 +1,295 @@
+program:
+  block:
+    var-declaration:
+      - ident: "a"
+      - ident: "b"
+      - ident: "c"
+      - ident: "r0"
+      - ident: "r1"
+      - ident: "r2"
+      - ident: "r3"
+    compound-statement:
+      - assignment-statement:
+          ident: "r0"
+          expression:
+            term:
+              number: 1
+      - assignment-statement:
+          ident: "r1"
+          expression:
+            term:
+              number: 0
+      - assignment-statement:
+          ident: "r2"
+          expression:
+            term:
+              number: 0
+      - assignment-statement:
+          ident: "r3"
+          expression:
+            term:
+              number: 0
+      - read-statement:
+          - ident: "a"
+          - ident: "b"
+          - ident: "c"
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "a"
+            rel-op: "<="
+            expression-2(expression):
+              term:
+                number: 0
+          assignment-statement:
+            ident: "r0"
+            expression:
+              term:
+                number: 0
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "b"
+            rel-op: "<="
+            expression-2(expression):
+              term:
+                number: 0
+          assignment-statement:
+            ident: "r0"
+            expression:
+              term:
+                number: 0
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "c"
+            rel-op: "<="
+            expression-2(expression):
+              term:
+                number: 0
+          assignment-statement:
+            ident: "r0"
+            expression:
+              term:
+                number: 0
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "a"
+            rel-op: "<="
+            expression-2(expression):
+              term:
+                ident: "b"
+              add-sub-op-terms:
+                add-sub-op: "+"
+                term:
+                  ident: "c"
+          assignment-statement:
+            ident: "r0"
+            expression:
+              term:
+                number: 0
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "b"
+            rel-op: "<="
+            expression-2(expression):
+              term:
+                ident: "a"
+              add-sub-op-terms:
+                add-sub-op: "+"
+                term:
+                  ident: "c"
+          assignment-statement:
+            ident: "r0"
+            expression:
+              term:
+                number: 0
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "c"
+            rel-op: "<="
+            expression-2(expression):
+              term:
+                ident: "a"
+              add-sub-op-terms:
+                add-sub-op: "+"
+                term:
+                  ident: "b"
+          assignment-statement:
+            ident: "r0"
+            expression:
+              term:
+                number: 0
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "r0"
+            rel-op: "="
+            expression-2(expression):
+              term:
+                number: 1
+          compound-statement:
+            - condition-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "a"
+                  rel-op: "="
+                  expression-2(expression):
+                    term:
+                      ident: "b"
+                condition-statement:
+                  relational-condition:
+                    expression-1(expression):
+                      term:
+                        ident: "b"
+                    rel-op: "="
+                    expression-2(expression):
+                      term:
+                        ident: "c"
+                  assignment-statement:
+                    ident: "r1"
+                    expression:
+                      term:
+                        number: 1
+            - condition-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "a"
+                  rel-op: "="
+                  expression-2(expression):
+                    term:
+                      ident: "b"
+                assignment-statement:
+                  ident: "r2"
+                  expression:
+                    term:
+                      number: 1
+            - condition-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "a"
+                  rel-op: "="
+                  expression-2(expression):
+                    term:
+                      ident: "c"
+                assignment-statement:
+                  ident: "r2"
+                  expression:
+                    term:
+                      number: 1
+            - condition-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "b"
+                  rel-op: "="
+                  expression-2(expression):
+                    term:
+                      ident: "c"
+                assignment-statement:
+                  ident: "r2"
+                  expression:
+                    term:
+                      number: 1
+            - condition-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "a"
+                      mul-div-op-factors:
+                        mul-div-op: "*"
+                        ident: "a"
+                  rel-op: "="
+                  expression-2(expression):
+                    term:
+                      ident: "b"
+                      mul-div-op-factors:
+                        mul-div-op: "*"
+                        ident: "b"
+                    add-sub-op-terms:
+                      add-sub-op: "+"
+                      term:
+                        ident: "c"
+                        mul-div-op-factors:
+                          mul-div-op: "*"
+                          ident: "c"
+                assignment-statement:
+                  ident: "r3"
+                  expression:
+                    term:
+                      number: 1
+            - condition-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "b"
+                      mul-div-op-factors:
+                        mul-div-op: "*"
+                        ident: "b"
+                  rel-op: "="
+                  expression-2(expression):
+                    term:
+                      ident: "a"
+                      mul-div-op-factors:
+                        mul-div-op: "*"
+                        ident: "a"
+                    add-sub-op-terms:
+                      add-sub-op: "+"
+                      term:
+                        ident: "c"
+                        mul-div-op-factors:
+                          mul-div-op: "*"
+                          ident: "c"
+                assignment-statement:
+                  ident: "r3"
+                  expression:
+                    term:
+                      number: 1
+            - condition-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "c"
+                      mul-div-op-factors:
+                        mul-div-op: "*"
+                        ident: "c"
+                  rel-op: "="
+                  expression-2(expression):
+                    term:
+                      ident: "a"
+                      mul-div-op-factors:
+                        mul-div-op: "*"
+                        ident: "a"
+                    add-sub-op-terms:
+                      add-sub-op: "+"
+                      term:
+                        ident: "b"
+                        mul-div-op-factors:
+                          mul-div-op: "*"
+                          ident: "b"
+                assignment-statement:
+                  ident: "r3"
+                  expression:
+                    term:
+                      number: 1
+            - empty-statement: null
+      - write-statement:
+          - ident: "r0"
+          - ident: "r1"
+          - ident: "r2"
+          - ident: "r3"
+      - empty-statement: null
+

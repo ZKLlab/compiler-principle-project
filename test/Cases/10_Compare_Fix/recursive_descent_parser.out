@@ -1,0 +1,44 @@
+program:
+  block:
+    var-declaration:
+      - ident: "x"
+      - ident: "y"
+      - ident: "z"
+    compound-statement:
+      - assignment-statement:
+          ident: "x"
+          expression:
+            term:
+              number: 10
+      - assignment-statement:
+          ident: "y"
+          expression:
+            add-sub-op: "-"
+            term:
+              number: 5
+      - read-statement:
+          - ident: "z"
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "z"
+            rel-op: ">"
+            expression-2(expression):
+              term:
+                number: 3
+          write-statement:
+            - ident: "x"
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "z"
+            rel-op: "<="
+            expression-2(expression):
+              term:
+                number: 3
+          write-statement:
+            - ident: "y"
+      - empty-statement: null
+

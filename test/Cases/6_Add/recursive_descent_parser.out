@@ -1,0 +1,25 @@
+program:
+  block:
+    const-declaration:
+      - ident: "num"
+        number: 100
+    var-declaration:
+      - ident: "a1"
+      - ident: "b2"
+    compound-statement:
+      - read-statement:
+          - ident: "a1"
+      - assignment-statement:
+          ident: "b2"
+          expression:
+            term:
+              ident: "a1"
+            add-sub-op-terms:
+              add-sub-op: "+"
+              term:
+                ident: "num"
+      - write-statement:
+          - ident: "a1"
+          - ident: "b2"
+      - empty-statement: null
+

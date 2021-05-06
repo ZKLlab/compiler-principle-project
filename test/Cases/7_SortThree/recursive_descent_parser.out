@@ -1,0 +1,96 @@
+program:
+  block:
+    var-declaration:
+      - ident: "t"
+      - ident: "a"
+      - ident: "b"
+      - ident: "c"
+    compound-statement:
+      - read-statement:
+          - ident: "a"
+          - ident: "b"
+          - ident: "c"
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "a"
+            rel-op: ">"
+            expression-2(expression):
+              term:
+                ident: "b"
+          compound-statement:
+            - assignment-statement:
+                ident: "t"
+                expression:
+                  term:
+                    ident: "a"
+            - assignment-statement:
+                ident: "a"
+                expression:
+                  term:
+                    ident: "b"
+            - assignment-statement:
+                ident: "b"
+                expression:
+                  term:
+                    ident: "t"
+            - empty-statement: null
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "a"
+            rel-op: ">"
+            expression-2(expression):
+              term:
+                ident: "c"
+          compound-statement:
+            - assignment-statement:
+                ident: "t"
+                expression:
+                  term:
+                    ident: "a"
+            - assignment-statement:
+                ident: "a"
+                expression:
+                  term:
+                    ident: "c"
+            - assignment-statement:
+                ident: "c"
+                expression:
+                  term:
+                    ident: "t"
+            - empty-statement: null
+      - condition-statement:
+          relational-condition:
+            expression-1(expression):
+              term:
+                ident: "b"
+            rel-op: ">"
+            expression-2(expression):
+              term:
+                ident: "c"
+          compound-statement:
+            - assignment-statement:
+                ident: "t"
+                expression:
+                  term:
+                    ident: "b"
+            - assignment-statement:
+                ident: "b"
+                expression:
+                  term:
+                    ident: "c"
+            - assignment-statement:
+                ident: "c"
+                expression:
+                  term:
+                    ident: "t"
+            - empty-statement: null
+      - write-statement:
+          - ident: "a"
+          - ident: "b"
+          - ident: "c"
+      - empty-statement: null
+

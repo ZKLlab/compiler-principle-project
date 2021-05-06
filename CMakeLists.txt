@@ -11,12 +11,12 @@ link_libraries(MyCompiler)
 
 add_executable(test_identifiers_counter test/testIdentifiersCounter.cpp)
 add_executable(test_lexical_analyzer test/testLexicalAnalyzer.cpp)
-add_executable(test_syntactic_analyzer test/testSyntacticAnalyzer.cpp)
 add_executable(test_recursive_descent_parser test/testRecursiveDescentParser.cpp)
+add_executable(test_table_driven_parser test/testTableDrivenParser.cpp)
 
 enable_testing()
 
-set(LABELS identifiers_counter lexical_analyzer recursive_descent_parser)
+set(LABELS identifiers_counter lexical_analyzer recursive_descent_parser table_driven_parser)
 set(CASES 1_Compare 2_Reverse 3_Chaos 4_Gcd 5_Unknown 6_Add 7_SortThree 8_Triangle 9_FullWidthSymbol
         10_Compare_Fix 11_Reverse_Fix)
 

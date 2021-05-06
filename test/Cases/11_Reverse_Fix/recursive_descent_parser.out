@@ -1,0 +1,46 @@
+program:
+  block:
+    const-declaration:
+      - ident: "a"
+        number: 10
+    var-declaration:
+      - ident: "b"
+      - ident: "c"
+      - ident: "d"
+      - ident: "x"
+    procedure-declarations:
+      - ident: "q"
+        block:
+          compound-statement:
+            - read-statement:
+                - ident: "x"
+            - assignment-statement:
+                ident: "d"
+                expression:
+                  term:
+                    ident: "x"
+            - while-loop-statement:
+                relational-condition:
+                  expression-1(expression):
+                    term:
+                      ident: "x"
+                  rel-op: "#"
+                  expression-2(expression):
+                    term:
+                      number: 0
+                call-statement:
+                  ident: "p"
+            - empty-statement: null
+      - ident: "p"
+        block:
+          compound-statement:
+            - write-statement:
+                - ident: "d"
+            - call-statement:
+                ident: "q"
+            - empty-statement: null
+    compound-statement:
+      - call-statement:
+          ident: "p"
+      - empty-statement: null
+
