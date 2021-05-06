@@ -1,0 +1,17 @@
+CONST A=10;                  
+VAR   B,C,D,X;
+PROCEDURE Q;
+    BEGIN
+        READ(X);
+        D:=X;
+        WHILE X#0
+            DO CALL P;
+    END;
+PROCEDURE P;
+    BEGIN
+        WRITE(D);
+        CALL Q;
+    END;
+BEGIN
+    CALL P;
+END.

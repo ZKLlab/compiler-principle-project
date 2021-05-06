@@ -101,6 +101,8 @@
 (semicolon, ;)
 (ifsym, if)
 (ident, r0)
+(eql, =)
+(number, 1)
 (thensym, then)
 (beginsym, begin)
 (ifsym, if)

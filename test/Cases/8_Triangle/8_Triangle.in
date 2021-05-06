@@ -11,7 +11,7 @@ begin
     if a <= b + c then r0 := 0;
     if b <= a + c then r0 := 0;
     if c <= a + b then r0 := 0;
-    if r0 then
+    if r0 = 1 then
         begin
             if a = b then if b = c then r1 := 1;
             if a = b then r2 := 1;
