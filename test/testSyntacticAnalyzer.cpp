@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
     }
     SyntacticAnalyzer syntacticAnalyzer(def);
     std::ifstream ss;
-    ss.open("./test/Cases/4_Gcd/4_Gcd.in");
+    ss.open("./test/Cases/6_Add/6_Add.in");
 
     if (ss.is_open()) std::cout << syntacticAnalyzer.tryParse(ss);
     else std::cout << "cannot find file" << std::endl;

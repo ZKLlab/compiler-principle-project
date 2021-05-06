@@ -5,12 +5,12 @@ set(CMAKE_CXX_STANDARD 14)
 
 include_directories(include)
 aux_source_directory("src/MyCompiler" SRC)
-add_library(MyCompiler STATIC ${SRC} src/MyCompiler/GrammarTable.cpp include/MyCompiler/GrammarTable.h src/MyCompiler/SyntacticAnalyzer.cpp include/MyCompiler/SyntacticAnalyzer.h)
+add_library(MyCompiler STATIC ${SRC})
 link_libraries(MyCompiler)
 
 add_executable(test_identifiers_counter test/testIdentifiersCounter.cpp)
 add_executable(test_lexical_analyzer test/testLexicalAnalyzer.cpp)
-add_executable(test_syntactic_analyzer test/testSyntacticAnalyzer.cpp src/MyCompiler/SyntacticAnalyzer.cpp include/MyCompiler/SyntacticAnalyzer.h)
+add_executable(test_syntactic_analyzer test/testSyntacticAnalyzer.cpp)
 
 enable_testing()
 
