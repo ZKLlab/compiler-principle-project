@@ -2,32 +2,33 @@
 // Created by 穆润东 on 2021/5/6.
 //
 
-#ifndef COMPILER_PRINCIPLE_PROJECT_SYNTACTICANALYZER_H
-#define COMPILER_PRINCIPLE_PROJECT_SYNTACTICANALYZER_H
+#ifndef MY_COMPILER__SYNTACTIC_ANALYZER_H
+#define MY_COMPILER__SYNTACTIC_ANALYZER_H
 
+#include <iostream>
 #include <stack>
-#include <string>
 #include "GrammarTable.h"
+#include "LexicalAnalyzer.h"
 #include "SymbolType.h"
 
-using MyCompiler::SymbolType;
+namespace MyCompiler
+{
 
-class SyntacticAnalyzer : private GrammarTable {
+    class SyntacticAnalyzer : private GrammarTable
+    {
+        std::stack<std::string> stack;
+    public:
+        explicit SyntacticAnalyzer(const std::vector<std::string> &def) : GrammarTable(def)
+        {
+            auto pos = def[0].find("::=");
+            std::string tmp(def[0].substr(0, pos));
 
-    std::stack<std::string> stack;
+            tmp = trim(tmp).substr(1, tmp.length() - 2);
+            stack.push(tmp);
+        }
 
-public:
-    explicit SyntacticAnalyzer(const std::vector<std::string> &def): GrammarTable(def) {
-        auto pos = def[0].find("::=");
-        std::string tmp(def[0].substr(0, pos));
+        bool tryParse(std::istream &stream);
+    };
+}
 
-        tmp = trim(tmp).substr(1, tmp.length() -2);
-        stack.push(tmp);
-    }
-
-    bool tryParse(std::istream &stream);
-
-};
-
-
-#endif //COMPILER_PRINCIPLE_PROJECT_SYNTACTICANALYZER_H
+#endif // MY_COMPILER__SYNTACTIC_ANALYZER_H

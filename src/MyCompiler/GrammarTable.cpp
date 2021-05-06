@@ -9,44 +9,46 @@ using std::unordered_set;
 using std::string;
 using std::vector;
 
-#include <iostream>
-#include <algorithm>
-#include <sstream>
-#include <regex>
-
-std::string &ltrim(std::string &s) {
+std::string &ltrim(std::string &s)
+{
     auto it = std::find_if(s.begin(), s.end(),
-                           [](char c) {
+                           [](char c)
+                           {
                                return !std::isspace<char>(c, std::locale::classic());
                            });
     s.erase(s.begin(), it);
     return s;
 }
 
-std::string &rtrim(std::string &s) {
+std::string &rtrim(std::string &s)
+{
     auto it = std::find_if(s.rbegin(), s.rend(),
-                           [](char c) {
+                           [](char c)
+                           {
                                return !std::isspace<char>(c, std::locale::classic());
                            });
     s.erase(it.base(), s.end());
     return s;
 }
 
-std::string &GrammarTable::trim(std::string &s) {
+std::string &MyCompiler::GrammarTable::trim(std::string &s)
+{
     return ltrim(rtrim(s));
 }
 
 using MyCompiler::getSymbolTypeByName;
 using MyCompiler::getSymbolTypeName;
 
-void GrammarTable::clear() {
+void MyCompiler::GrammarTable::clear()
+{
     rule.clear();
     non_terminator.clear();
     first.clear();
     follow.clear();
 }
 
-GrammarTable::GrammarTable(const vector<string> &def) {
+MyCompiler::GrammarTable::GrammarTable(const vector<std::string> &def)
+{
     if (!rule.empty()) return;
     make_rule(def);
     make_first();
@@ -54,9 +56,11 @@ GrammarTable::GrammarTable(const vector<string> &def) {
     make_table();
 }
 
-void GrammarTable::make_rule(const vector<string> &def) {
+void MyCompiler::GrammarTable::make_rule(const vector<string> &def)
+{
     bool init = true;
-    for (const auto &s : def) {
+    for (const auto &s : def)
+    {
         auto delimiter = "::=";
         auto pos = s.find(delimiter);
         string tmp(s.substr(0, pos));
@@ -64,7 +68,8 @@ void GrammarTable::make_rule(const vector<string> &def) {
         key = key.substr(1, key.length() - 2);
         non_terminator.insert(key);
 
-        if (init) {
+        if (init)
+        {
             // Normally it's '$', but we will use <Nul> instead.
             unordered_set<SymbolType> start({SymbolType::NUL});
             follow[key] = start;
@@ -79,10 +84,12 @@ void GrammarTable::make_rule(const vector<string> &def) {
 
         std::regex reg("<.*?>");
 
-        while (getline(ss, part, '|')) {
+        while (getline(ss, part, '|'))
+        {
             vector<string> frac;
             auto words_begin = std::sregex_iterator(part.begin(), part.end(), reg);
-            for (auto t = words_begin; t != std::sregex_iterator(); ++t) {
+            for (auto t = words_begin; t != std::sregex_iterator(); ++t)
+            {
                 string k(t->str());
                 k = k.substr(1, k.size() - 2);
                 frac.push_back(k);
@@ -109,16 +116,20 @@ void GrammarTable::make_rule(const vector<string> &def) {
 //    }
 }
 
-void GrammarTable::make_first() {
-    for (const auto &t : non_terminator) {
+void MyCompiler::GrammarTable::make_first()
+{
+    for (const auto &t : non_terminator)
+    {
         unordered_set<SymbolType> s;
         first[t] = s;
     }
 
-    for (auto &it : rule) {
+    for (auto &it : rule)
+    {
         string left = it.first;
         auto right = it.second;
-        for (const auto &v : right) {
+        for (const auto &v : right)
+        {
             string fst = v[0];
             if (non_terminator.count(fst) == 0)
                 first[left].insert(getSymbolTypeByName(fst));
@@ -126,17 +137,22 @@ void GrammarTable::make_first() {
     }
 
     bool changed = true;
-    while (changed) {
+    while (changed)
+    {
         changed = false;
 
-        for (const auto &it : rule) {
+        for (const auto &it : rule)
+        {
             string left = it.first;
             auto right = it.second;
-            for (const auto &v: right) {
+            for (const auto &v: right)
+            {
                 bool nullable = true;
                 unordered_set<SymbolType> fstTmp;
-                for (const auto &key: v) {
-                    if (non_terminator.count(key) == 0) {
+                for (const auto &key: v)
+                {
+                    if (non_terminator.count(key) == 0)
+                    {
                         fstTmp.insert(getSymbolTypeByName(key));
                         nullable = false;
                         break;
@@ -144,13 +160,15 @@ void GrammarTable::make_first() {
                     auto tmp = first.at(key);
                     fstTmp.insert(tmp.begin(), tmp.end());
                     fstTmp.erase(SymbolType::NUL);
-                    if (tmp.count(SymbolType::NUL) == 0) {
+                    if (tmp.count(SymbolType::NUL) == 0)
+                    {
                         nullable = false;
                         break;
                     }
                 }
                 int prevLen = first[left].size();
-                if (nullable) {
+                if (nullable)
+                {
                     first[left].insert(SymbolType::NUL);
                 }
                 first[left].insert(fstTmp.begin(), fstTmp.end());
@@ -172,17 +190,21 @@ void GrammarTable::make_first() {
 //    }
 }
 
-void GrammarTable::make_follow() {
-    for (const auto &t : non_terminator) {
+void MyCompiler::GrammarTable::make_follow()
+{
+    for (const auto &t : non_terminator)
+    {
         if (follow.count(t) != 0) continue;
         unordered_set<SymbolType> s;
         follow[t] = s;
     }
 
-    for (auto &it : rule) {
+    for (auto &it : rule)
+    {
         string left = it.first;
         auto right = it.second;
-        for (const auto &v : right) {
+        for (const auto &v : right)
+        {
             string fol = v[v.size() - 1];
             if (non_terminator.count(fol) == 0)
                 follow[left].insert(getSymbolTypeByName(fol));
@@ -190,32 +212,41 @@ void GrammarTable::make_follow() {
     }
 
     bool changed = true;
-    while (changed) {
+    while (changed)
+    {
         changed = false;
 
-        for (const auto &it : rule) {
+        for (const auto &it : rule)
+        {
             string left = it.first;
             auto right = it.second;
-            for (const auto &v: right) {
+            for (const auto &v: right)
+            {
                 bool nullable = true;
                 unordered_set<SymbolType> folTmp;
-                for (auto i = v.rbegin(); i != v.rend(); ++i) {
+                for (auto i = v.rbegin(); i != v.rend(); ++i)
+                {
                     auto key = *i;
 
-                    if (non_terminator.count(key) == 0) {
+                    if (non_terminator.count(key) == 0)
+                    {
                         nullable = false;
                         folTmp.clear();
                         folTmp.insert(getSymbolTypeByName(key));
-                    } else {
+                    }
+                    else
+                    {
                         int prevLen = follow[key].size();
                         follow[key].insert(folTmp.begin(), folTmp.end());
-                        if (nullable) {
+                        if (nullable)
+                        {
                             follow[key].insert(follow[left].begin(), follow[left].end());
                         }
                         follow[key].erase(SymbolType::NUL);
                         if (prevLen != follow[key].size()) changed = true;
 
-                        if (first[key].count(SymbolType::NUL) == 0) {
+                        if (first[key].count(SymbolType::NUL) == 0)
+                        {
                             nullable = false;
                             folTmp.clear();
                         }
@@ -239,28 +270,42 @@ void GrammarTable::make_follow() {
 //    }
 }
 
-void GrammarTable::make_table() {
-    for (const auto &r : rule) {
+void MyCompiler::GrammarTable::make_table()
+{
+    for (const auto &r : rule)
+    {
         string left = r.first;
         auto rights = r.second;
         unordered_map<SymbolType, vector<string>> tmp;
-        for (const auto &right : rights) {
-            for (const auto &head : right){
-                if (non_terminator.count(head) == 0) {
+        for (const auto &right : rights)
+        {
+            for (const auto &head : right)
+            {
+                if (non_terminator.count(head) == 0)
+                {
                     auto head_term = getSymbolTypeByName(head);
-                    if (head_term == SymbolType::NUL) {
-                        for (const auto &fol: follow[left]) {
+                    if (head_term == SymbolType::NUL)
+                    {
+                        for (const auto &fol: follow[left])
+                        {
                             tmp[fol] = right;
                         }
-                    } else tmp[head_term] = right;
+                    }
+                    else tmp[head_term] = right;
                     break;
-                } else {
+                }
+                else
+                {
                     auto head_non_term = first[head];
                     bool nullable = false;
-                    for (const auto &h: head_non_term) {
-                        if (h != SymbolType::NUL) {
+                    for (const auto &h: head_non_term)
+                    {
+                        if (h != SymbolType::NUL)
+                        {
                             tmp[h] = right;
-                        } else {
+                        }
+                        else
+                        {
                             nullable = true;
                         }
                     }
@@ -285,4 +330,3 @@ void GrammarTable::make_table() {
 //        std::cout << std::endl;
 //    }
 }
-

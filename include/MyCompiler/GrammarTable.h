@@ -2,44 +2,47 @@
 // Created by 穆润东 on 2021/5/3.
 //
 
-#ifndef COMPILER_PRINCIPLE_PROJECT_GRAMMARTABLE_H
-#define COMPILER_PRINCIPLE_PROJECT_GRAMMARTABLE_H
+#ifndef MY_COMPILER__GRAMMAR_TABLE_H
+#define MY_COMPILER__GRAMMAR_TABLE_H
 
+#include <algorithm>
+#include <iostream>
+#include <regex>
+#include <sstream>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
-#include <string>
-
 #include "SymbolType.h"
 
-using MyCompiler::SymbolType;
+namespace MyCompiler
+{
+    class GrammarTable
+    {
+        std::unordered_map<std::string, std::vector<std::vector<std::string>>> rule;
+        std::unordered_set<std::string> non_terminator;
+        std::unordered_map<std::string, std::unordered_set<SymbolType>> first;
+        std::unordered_map<std::string, std::unordered_set<SymbolType>> follow;
+        std::unordered_map<std::string, std::unordered_map<SymbolType, std::vector<std::string>>> table;
 
-class GrammarTable {
-    std::unordered_map<std::string, std::vector<std::vector<std::string>>> rule;
-    std::unordered_set<std::string> non_terminator;
-    std::unordered_map<std::string, std::unordered_set<SymbolType>> first;
-    std::unordered_map<std::string, std::unordered_set<SymbolType>> follow;
-    std::unordered_map<std::string, std::unordered_map<SymbolType, std::vector<std::string>>> table;
+        void make_rule(const std::vector<std::string> &def);
 
-    void make_rule(const std::vector<std::string> &def);
+        void make_first();
 
-    void make_first();
+        void make_follow();
 
-    void make_follow();
+        void make_table();
 
-    void make_table();
+    protected:
 
-protected:
+        explicit GrammarTable(const std::vector<std::string> &def);
 
-    explicit GrammarTable(const std::vector<std::string> &def);
+        void clear();
 
-    void clear();
+        static std::string &trim(std::string &s);
 
-    std::string &trim(std::string &s);
+        const auto &getTable()
+        { return table; }
+    };
+}
 
-    const auto &getTable() { return table; }
-
-};
-
-
-#endif //COMPILER_PRINCIPLE_PROJECT_GRAMMARTABLE_H
+#endif // MY_COMPILER__GRAMMAR_TABLE_H

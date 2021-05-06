@@ -5,25 +5,26 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <sstream>
-#include <string>
 #include "MyCompiler/SyntacticAnalyzer.h"
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[])
+{
     std::ifstream in;
     in.open("./src/definition/definition.bnf");
-    if (!in.is_open()) {
+    if (!in.is_open())
+    {
         throw std::runtime_error("definition.bnf is not found");
     }
 
     std::vector<std::string> def;
     std::string buffer;
-    while(!in.eof()) {
+    while (!in.eof())
+    {
         getline(in, buffer);
         auto tmp = buffer;
         def.push_back(tmp);
     }
-    SyntacticAnalyzer syntacticAnalyzer(def);
+    MyCompiler::SyntacticAnalyzer syntacticAnalyzer(def);
     std::ifstream ss;
     ss.open("./test/Cases/6_Add/6_Add.in");
 
