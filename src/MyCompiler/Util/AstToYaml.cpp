@@ -119,7 +119,7 @@ void MyCompiler::Util::processAst<MyCompiler::Statement>(
                 processAst(subAst, level + 1 + offset, items, "- ");
             break;
         default:
-            break;
+            items.emplace_back(level, name + "empty-statement: null");
     }
 }
 
@@ -188,15 +188,12 @@ void MyCompiler::Util::processAst<MyCompiler::Factor>(
     switch (ast.caseNum)
     {
         case 0:
-            items.emplace_back(level, "ident-factor:");
-            items.emplace_back(level + 1, "ident: \"" + ast.pIdent->value + "\"");
+            items.emplace_back(level, "ident: \"" + ast.pIdent->value + "\"");
             break;
         case 1:
-            items.emplace_back(level, "number-factor:");
-            items.emplace_back(level + 1, "number: " + ast.pNumber->value);
+            items.emplace_back(level, "number: " + ast.pNumber->value);
             break;
         default:
-            items.emplace_back(level, "expression-factor:");
-            processAst(*ast.pExpression, level + 1, items, "expression");
+            processAst(*ast.pExpression, level, items, "expression");
     }
 }
