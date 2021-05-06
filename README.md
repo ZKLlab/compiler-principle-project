@@ -12,7 +12,7 @@ A naive PL/0 compiler for a *Compiler Principle* course.
 
 - [x] 识别标识符
 - [x] 词法分析
-- [ ] 语法分析
+- [x] 语法分析
 - [ ] 语义分析
 - [ ] 中间代码生成
 - [ ] 代码优化
