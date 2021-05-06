@@ -8,7 +8,40 @@
 int analyze()
 {
     typedef MyCompiler::SymbolType ST;
-
+    static const std::unordered_map<ST, std::string> symbolTypeNameMap = {
+            {ST::NUL,       "nul"},
+            {ST::IDENT,     "ident"},
+            {ST::NUMBER,    "number"},
+            {ST::PLUS,      "plus"},
+            {ST::MINUS,     "minus"},
+            {ST::TIMES,     "times"},
+            {ST::SLASH,     "slash"},
+            {ST::EQL,       "eql"},
+            {ST::NEQ,       "neq"},
+            {ST::LSS,       "lss"},
+            {ST::LEQ,       "leq"},
+            {ST::GTR,       "gtr"},
+            {ST::GEQ,       "geq"},
+            {ST::LPAREN,    "lparen"},
+            {ST::RPAREN,    "rparen"},
+            {ST::COMMA,     "comma"},
+            {ST::SEMICOLON, "semicolon"},
+            {ST::PERIOD,    "period"},
+            {ST::BECOMES,   "becomes"},
+            {ST::BEGIN,     "beginsym"},
+            {ST::END,       "endsym"},
+            {ST::IF,        "ifsym"},
+            {ST::THEN,      "thensym"},
+            {ST::WHILE,     "whilesym"},
+            {ST::WRITE,     "writesym"},
+            {ST::READ,      "readsym"},
+            {ST::DO,        "dosym"},
+            {ST::CALL,      "callsym"},
+            {ST::CONST,     "constsym"},
+            {ST::VAR,       "varsym"},
+            {ST::PROC,      "proceduresym"},
+            {ST::ODD,       "oddsym"}
+    };
     std::string line;
     int lineNum = 0;
 
@@ -23,7 +56,7 @@ int analyze()
                 auto token = MyCompiler::nextToken(lineStream);
                 if (token.getSymbolType() == ST::NUL)
                     break;
-                std::cout << "(" << MyCompiler::getSymbolTypeName(token.getSymbolType()) << ", " << token.getValue() << ")"
+                std::cout << "(" << symbolTypeNameMap.at(token.getSymbolType()) << ", " << token.getValue() << ")"
                           << std::endl;
             }
         }
