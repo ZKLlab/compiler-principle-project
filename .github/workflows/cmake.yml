@@ -37,10 +37,12 @@ jobs:
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        label: [ identifiers_counter, lexical_analyzer, recursive_descent_parser ]
+        label: [ identifiers_counter, lexical_analyzer, recursive_descent_parser, table_driven_parser ]
         experimental: [ false ]
         include:
           - label: recursive_descent_parser
+            experimental: true
+          - label: table_driven_parser
             experimental: true
 
     steps:
