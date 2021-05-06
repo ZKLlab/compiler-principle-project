@@ -35,7 +35,7 @@ void MyCompiler::Util::processAst<MyCompiler::Block>(
         for (ProcedureDeclaration &subAst : ast.vProcedureDeclaration)
             processAst(subAst, level + 2, items, "");
     }
-    processAst(*ast.pStatement, level + 1, items, "statement");
+    processAst(*ast.pStatement, level + 1, items, "");
 }
 
 template <>
@@ -53,7 +53,7 @@ void MyCompiler::Util::processAst<MyCompiler::ConstDefinition>(
         ConstDefinition &ast, int level,
         std::vector<std::pair<int, std::string>> &items, const std::string &name)
 {
-    items.emplace_back(level, std::string("- ident: ") + ast.pIdent->value);
+    items.emplace_back(level, std::string("- ident: \"") + ast.pIdent->value + "\"");
     items.emplace_back(level, std::string("  number: ") + ast.pNumber->value);
 }
 
@@ -64,7 +64,7 @@ void MyCompiler::Util::processAst<MyCompiler::VarDeclaration>(
 {
     items.emplace_back(level, name + ":");
     for (Ident &subAst : ast.vIdent)
-        items.emplace_back(level + 1, std::string("- ident: ") + subAst.value);
+        items.emplace_back(level + 1, std::string("- ident: \"") + subAst.value + "\"");
 }
 
 template <>
@@ -72,7 +72,7 @@ void MyCompiler::Util::processAst<MyCompiler::ProcedureDeclaration>(
         ProcedureDeclaration &ast, int level,
         std::vector<std::pair<int, std::string>> &items, const std::string &name)
 {
-    items.emplace_back(level, std::string("- ident: ") + ast.pIdent->value);
+    items.emplace_back(level, std::string("- ident: \"") + ast.pIdent->value + "\"");
     processAst(*ast.pBlock, level + 1, items, "block");
 }
 
@@ -81,44 +81,45 @@ void MyCompiler::Util::processAst<MyCompiler::Statement>(
         Statement &ast, int level,
         std::vector<std::pair<int, std::string>> &items, const std::string &name)
 {
+    int offset = name.empty() ? 0 : 1;
     switch (ast.caseNum)
     {
         case 0:
-            items.emplace_back(level, "assignment-statement:");
-            items.emplace_back(level + 1, std::string("ident: ") + ast.pIdent->value);
-            processAst(*ast.pExpression, level + 1, items, "expression");
+            items.emplace_back(level, name + "assignment-statement:");
+            items.emplace_back(level + 1 + offset, std::string("ident: \"") + ast.pIdent->value + "\"");
+            processAst(*ast.pExpression, level + 1 + offset, items, "expression");
             break;
         case 1:
-            items.emplace_back(level, "condition-statement:");
-            processAst(*ast.pCondition, level + 1, items, "condition");
-            processAst(*ast.pStatement, level + 1, items, "statement");
+            items.emplace_back(level, name + "condition-statement:");
+            processAst(*ast.pCondition, level + 1 + offset, items, "condition");
+            processAst(*ast.pStatement, level + 1 + offset, items, "");
             break;
         case 2:
-            items.emplace_back(level, "while-loop-statement:");
-            processAst(*ast.pCondition, level + 1, items, "condition");
-            processAst(*ast.pStatement, level + 1, items, "statement");
+            items.emplace_back(level, name + "while-loop-statement:");
+            processAst(*ast.pCondition, level + 1 + offset, items, "condition");
+            processAst(*ast.pStatement, level + 1 + offset, items, "");
             break;
         case 3:
-            items.emplace_back(level, "call-statement:");
-            items.emplace_back(level + 1, std::string("ident: ") + ast.pIdent->value);
+            items.emplace_back(level, name + "call-statement:");
+            items.emplace_back(level + 1 + offset, std::string("ident: \"") + ast.pIdent->value + "\"");
             break;
         case 4:
-            items.emplace_back(level, "read-statement:");
+            items.emplace_back(level, name + "read-statement:");
             for (Ident &subAst : ast.vIdent)
-                items.emplace_back(level + 1, std::string("- ident: ") + subAst.value);
+                items.emplace_back(level + 1 + offset, std::string("- ident: \"") + subAst.value + "\"");
             break;
         case 5:
-            items.emplace_back(level, "write-statement:");
+            items.emplace_back(level, name + "write-statement:");
             for (Ident &subAst : ast.vIdent)
-                items.emplace_back(level + 1, std::string("- ident: ") + subAst.value);
+                items.emplace_back(level + 1 + offset, std::string("- ident: \"") + subAst.value + "\"");
             break;
         case 6:
-            items.emplace_back(level, "compound-statement:");
+            items.emplace_back(level, name + "compound-statement:");
             for (Statement &subAst : ast.vStatement)
-                processAst(subAst, level + 1, items, "statement");
+                processAst(subAst, level + 1 + offset, items, "- ");
             break;
         default:
-            items.emplace_back(level, "empty-statement:");
+            break;
     }
 }
 
@@ -134,6 +135,7 @@ void MyCompiler::Util::processAst<MyCompiler::Condition>(
             processAst(*ast.pExpression1, level + 1, items, "expression-1(expression)");
             items.emplace_back(level + 1, std::string("rel-op: \"") + ast.pRelOp->value + "\"");
             processAst(*ast.pExpression2, level + 1, items, "expression-2(expression)");
+            break;
         default:
             items.emplace_back(level, "odd-condition:");
             processAst(*ast.pExpression1, level + 1, items, "expression");
@@ -187,7 +189,7 @@ void MyCompiler::Util::processAst<MyCompiler::Factor>(
     {
         case 0:
             items.emplace_back(level, "ident-factor:");
-            items.emplace_back(level + 1, "ident: " + ast.pIdent->value);
+            items.emplace_back(level + 1, "ident: \"" + ast.pIdent->value + "\"");
             break;
         case 1:
             items.emplace_back(level, "number-factor:");
