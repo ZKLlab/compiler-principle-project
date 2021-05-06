@@ -28,6 +28,11 @@ void MyCompiler::RecursiveDescentParser::except(SymbolType symbolType, const std
         throw SyntaxError(msg);
 }
 
+void MyCompiler::RecursiveDescentParser::finish()
+{
+    except(SymbolType::NUL, "eof expected");
+}
+
 #pragma region Parsers
 
 template <>

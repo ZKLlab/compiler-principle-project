@@ -6,10 +6,11 @@
 
 int parse()
 {
-    MyCompiler::RecursiveDescentParser parser(std::cin);
     try
     {
+        MyCompiler::RecursiveDescentParser parser(std::cin);
         auto pAst = parser.parse<MyCompiler::Program>();
+        parser.finish();
         std::cout << MyCompiler::Util::astToYaml(*pAst) << std::endl;
     }
     catch (MyCompiler::LexicalError &err)
