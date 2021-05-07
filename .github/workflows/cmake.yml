@@ -34,16 +34,9 @@ jobs:
   test:
     runs-on: ubuntu-latest
     needs: build
-    continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
-        label: [ identifiers_counter, lexical_analyzer, recursive_descent_parser, table_driven_parser ]
-        experimental: [ false ]
-        include:
-          - label: recursive_descent_parser
-            experimental: true
-          - label: table_driven_parser
-            experimental: true
+        label: [ identifiers_counter, lexical_analyzer, recursive_descent_parser, table_driven_parser, rd_exp_parser, rd_cond_parser ]
 
     steps:
       - uses: actions/checkout@v2
