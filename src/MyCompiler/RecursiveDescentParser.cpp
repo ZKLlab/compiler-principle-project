@@ -209,7 +209,11 @@ std::shared_ptr<MyCompiler::Expression> MyCompiler::RecursiveDescentParser::pars
         pResult->pAddSubOp = parse<AddSubOp>();
     pResult->pTerm = parse<Term>();
     while (sym == SymbolType::PLUS || sym == SymbolType::MINUS)
-        pResult->vAddSubOpExpression.emplace_back(*parse<AddSubOp>(), *parse<Term>());
+    {
+        auto p1 = parse<AddSubOp>();
+        auto p2 = parse<Term>();
+        pResult->vAddSubOpExpression.emplace_back(*p1, *p2);
+    }
 
     return pResult;
 }
@@ -221,7 +225,11 @@ std::shared_ptr<MyCompiler::Term> MyCompiler::RecursiveDescentParser::parse()
 
     pResult->pFactor = parse<Factor>();
     while (sym == SymbolType::TIMES || sym == SymbolType::SLASH)
-        pResult->vMulDivOpFactor.emplace_back(*parse<MulDivOp>(), *parse<Factor>());
+    {
+        auto p1 = parse<MulDivOp>();
+        auto p2 = parse<Factor>();
+        pResult->vMulDivOpFactor.emplace_back(*p1, *p2);
+    }
 
     return pResult;
 }
