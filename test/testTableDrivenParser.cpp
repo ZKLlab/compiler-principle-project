@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include <fstream>
-#include <sstream>
 #include "MyCompiler/SyntacticAnalyzer.h"
 
 const char *BNF =

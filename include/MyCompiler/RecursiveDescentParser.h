@@ -34,61 +34,61 @@ namespace MyCompiler
 
         void finish();
 
-#pragma region ParserDeclarations
-
         template <typename T>
         std::shared_ptr<T> parse();
+    };
 
-        template <>
-        std::shared_ptr<Program> parse();
+#pragma region ParserDeclarations
 
-        template <>
-        std::shared_ptr<Block> parse();
+    template <>
+    std::shared_ptr<Program> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<ConstDeclaration> parse();
+    template <>
+    std::shared_ptr<Block> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<ConstDefinition> parse();
+    template <>
+    std::shared_ptr<ConstDeclaration> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<VarDeclaration> parse();
+    template <>
+    std::shared_ptr<ConstDefinition> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<ProcedureDeclaration> parse();
+    template <>
+    std::shared_ptr<VarDeclaration> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<Statement> parse();
+    template <>
+    std::shared_ptr<ProcedureDeclaration> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<Condition> parse();
+    template <>
+    std::shared_ptr<Statement> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<Expression> parse();
+    template <>
+    std::shared_ptr<Condition> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<Term> parse();
+    template <>
+    std::shared_ptr<Expression> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<Factor> parse();
+    template <>
+    std::shared_ptr<Term> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<Ident> parse();
+    template <>
+    std::shared_ptr<Factor> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<Number> parse();
+    template <>
+    std::shared_ptr<Ident> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<RelOp> parse();
+    template <>
+    std::shared_ptr<Number> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<AddSubOp> parse();
+    template <>
+    std::shared_ptr<RelOp> RecursiveDescentParser::parse();
 
-        template <>
-        std::shared_ptr<MulDivOp> parse();
+    template <>
+    std::shared_ptr<AddSubOp> RecursiveDescentParser::parse();
+
+    template <>
+    std::shared_ptr<MulDivOp> RecursiveDescentParser::parse();
 
 #pragma endregion
-    };
 }
 
 #endif // MY_COMPILER__RECURSIVE_DESCENT_PARSER_H

@@ -4,8 +4,6 @@
 #include "MyCompiler/RecursiveDescentParser.h"
 #include "MyCompiler/Util/AstToYaml.h"
 
-volatile void *sink;
-
 void parse()
 {
     std::string line;
@@ -17,7 +15,6 @@ void parse()
             MyCompiler::RecursiveDescentParser parser(in);
             auto pAst = parser.parse<MyCompiler::Expression>();
             parser.finish();
-            sink = (void *) pAst.get();
             std::cout << "ok" << std::endl;
         }
         catch (MyCompiler::LexicalError &err)

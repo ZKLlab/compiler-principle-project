@@ -38,17 +38,6 @@ bool MyCompiler::SyntacticAnalyzer::tryParse(std::istream &stream)
         {
             if (*it != "Nul") stack.push(*it);
         }
-////     Debug
-//        std::cout << "[@Token]: \t" << getSymbolTypeName(type) << std::endl;
-//        std::cout << "[@Stack]:" << std::endl;
-//        std::cout << "\t";
-//        std::stack<string> debug(stack);
-//        while (!debug.empty()) {
-//            std::cout << debug.top() << " ";
-//            debug.pop();
-//        }
-//        std::cout << std::endl;
-//        std::cout << "\t^" << std::endl;
     }
     return true;
 }
