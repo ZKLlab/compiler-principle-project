@@ -10,6 +10,7 @@ void MyCompiler::RecursiveDescentParser::nextSym()
 {
     currentToken = nextToken(stream);
     sym = currentToken.getSymbolType();
+    std::cerr << currentToken.getValue() << std::endl;
 }
 
 bool MyCompiler::RecursiveDescentParser::accept(SymbolType symbolType)
