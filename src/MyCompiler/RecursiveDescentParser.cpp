@@ -208,11 +208,29 @@ std::shared_ptr<MyCompiler::Expression> MyCompiler::RecursiveDescentParser::pars
     if (sym == SymbolType::PLUS || sym == SymbolType::MINUS)
         pResult->pAddSubOp = parse<AddSubOp>();
     pResult->pTerm = parse<Term>();
+    if (pResult->pAddSubOp != nullptr && pResult->pTerm->pFactor->caseNum == 1 &&
+        pResult->pTerm->vMulDivOpFactor.empty())
+    {
+        if (pResult->pAddSubOp->value == "-")
+            pResult->pTerm->pFactor->pNumber->setNum(-pResult->pTerm->pFactor->pNumber->num);
+        pResult->pAddSubOp = nullptr;
+    }
     while (sym == SymbolType::PLUS || sym == SymbolType::MINUS)
     {
         auto p1 = parse<AddSubOp>();
         auto p2 = parse<Term>();
-        pResult->vAddSubOpExpression.emplace_back(*p1, *p2);
+        if (pResult->pTerm->pFactor->caseNum == 1 && pResult->vAddSubOpExpression.empty() &&
+            p2->pFactor->caseNum == 1 && p2->vMulDivOpFactor.empty())
+        {
+            if (p1->value == "+")
+                pResult->pTerm->pFactor->pNumber->setNum(
+                        pResult->pTerm->pFactor->pNumber->num + p2->pFactor->pNumber->num);
+            else
+                pResult->pTerm->pFactor->pNumber->setNum(
+                        pResult->pTerm->pFactor->pNumber->num - p2->pFactor->pNumber->num);
+        }
+        else
+            pResult->vAddSubOpExpression.emplace_back(*p1, *p2);
     }
 
     return pResult;
@@ -228,7 +246,17 @@ std::shared_ptr<MyCompiler::Term> MyCompiler::RecursiveDescentParser::parse()
     {
         auto p1 = parse<MulDivOp>();
         auto p2 = parse<Factor>();
-        pResult->vMulDivOpFactor.emplace_back(*p1, *p2);
+        if (pResult->pFactor->caseNum == 1 && p2->caseNum == 1 && pResult->vMulDivOpFactor.empty())
+        {
+            if (p1->value == "*")
+                pResult->pFactor->pNumber->setNum(pResult->pFactor->pNumber->num * p2->pNumber->num);
+            else if (p2->pNumber->num != 0)
+                pResult->pFactor->pNumber->setNum(pResult->pFactor->pNumber->num / p2->pNumber->num);
+            else
+                except(sym, "division by zero");
+        }
+        else
+            pResult->vMulDivOpFactor.emplace_back(*p1, *p2);
     }
 
     return pResult;
@@ -255,6 +283,13 @@ std::shared_ptr<MyCompiler::Factor> MyCompiler::RecursiveDescentParser::parse()
         pResult->caseNum = 2;
         pResult->pExpression = parse<Expression>();
         except(SymbolType::RPAREN, "right parenthesis expected");
+        if (pResult->pExpression->pAddSubOp == nullptr && pResult->pExpression->vAddSubOpExpression.empty() &&
+            pResult->pExpression->pTerm->pFactor->caseNum == 1 && pResult->pExpression->pTerm->vMulDivOpFactor.empty())
+        {
+            pResult->caseNum = 1;
+            pResult->pNumber = pResult->pExpression->pTerm->pFactor->pNumber;
+            pResult->pExpression = nullptr;
+        }
     }
 
     return pResult;
@@ -285,7 +320,7 @@ std::shared_ptr<MyCompiler::Number> MyCompiler::RecursiveDescentParser::parse()
     in >> std::noshowbase >> std::setbase(10) >> val;
     if (in.fail())
         except(SymbolType::NUMBER, "this number is too large");
-    pResult->num = val;
+    pResult->setNum(val);
     std::ostringstream out;
     out << val;
     pResult->value = out.str();

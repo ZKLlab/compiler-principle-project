@@ -60,6 +60,14 @@ MyCompiler::Number::Number()
         : AbstractAstNode("Number")
 {}
 
+void MyCompiler::Number::setNum(int32_t val)
+{
+    std::ostringstream out;
+    out << std::noshowbase << std::setbase(10) << val;
+    num = val;
+    value = out.str();
+}
+
 MyCompiler::RelOp::RelOp()
         : AbstractAstNode("RelOp")
 {}

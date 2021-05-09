@@ -2,6 +2,7 @@
 #define MY_COMPILER__ABSTRACT_SYNTAX_TREE_H
 
 #include <functional>
+#include <iomanip>
 #include <memory>
 #include <sstream>
 #include <vector>
@@ -173,6 +174,8 @@ namespace MyCompiler
         int32_t num{0};
 
         Number();
+
+        void setNum(int32_t val);
     };
 
     // rel-op = "=" | "#" | "<" | "<=" | ">" | ">="

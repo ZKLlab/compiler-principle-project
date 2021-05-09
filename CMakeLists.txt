@@ -15,6 +15,7 @@ add_executable(test_recursive_descent_parser test/testRecursiveDescentParser.cpp
 add_executable(test_table_driven_parser test/testTableDrivenParser.cpp)
 add_executable(test_rd_exp_parser test/testRdExpParser.cpp)
 add_executable(test_rd_cond_parser test/testRdCondParser.cpp)
+add_executable(test_rd_exp_sdt test/testRdExpSdt.cpp)
 
 enable_testing()
 
