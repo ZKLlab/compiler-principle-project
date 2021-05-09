@@ -36,7 +36,7 @@ jobs:
     needs: build
     strategy:
       matrix:
-        label: [ identifiers_counter, lexical_analyzer, recursive_descent_parser, table_driven_parser, rd_exp_parser, rd_cond_parser ]
+        label: [ identifiers_counter, lexical_analyzer, recursive_descent_parser, table_driven_parser, rd_exp_parser, rd_cond_parser, rd_exp_sdt ]
 
     steps:
       - uses: actions/checkout@v2

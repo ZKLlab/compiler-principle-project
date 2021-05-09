@@ -60,7 +60,7 @@ MyCompiler::Number::Number()
         : AbstractAstNode("Number")
 {}
 
-void MyCompiler::Number::setNum(int32_t val)
+void MyCompiler::Number::setNum(int64_t val)
 {
     std::ostringstream out;
     out << std::noshowbase << std::setbase(10) << val;

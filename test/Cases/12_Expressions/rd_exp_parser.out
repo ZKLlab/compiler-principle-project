@@ -14,7 +14,7 @@ right parenthesis expected
 eof expected
 ok
 eof expected
-ok
+attempt to division by zero
 expression expected
 ok
 ok

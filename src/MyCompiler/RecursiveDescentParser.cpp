@@ -228,6 +228,10 @@ std::shared_ptr<MyCompiler::Expression> MyCompiler::RecursiveDescentParser::pars
             else
                 pResult->pTerm->pFactor->pNumber->setNum(
                         pResult->pTerm->pFactor->pNumber->num - p2->pFactor->pNumber->num);
+            if (pResult->pTerm->pFactor->pNumber->num > std::numeric_limits<int32_t>::max()
+                || pResult->pTerm->pFactor->pNumber->num < std::numeric_limits<int32_t>::min())
+                throw SyntaxError(
+                        p1->value == "+" ? "attempt to add with overflow" : "attempt to subtract with overflow");
         }
         else
             pResult->vAddSubOpExpression.emplace_back(*p1, *p2);
@@ -253,7 +257,11 @@ std::shared_ptr<MyCompiler::Term> MyCompiler::RecursiveDescentParser::parse()
             else if (p2->pNumber->num != 0)
                 pResult->pFactor->pNumber->setNum(pResult->pFactor->pNumber->num / p2->pNumber->num);
             else
-                except(sym, "division by zero");
+                throw SyntaxError("attempt to division by zero");
+            if (pResult->pFactor->pNumber->num > std::numeric_limits<int32_t>::max()
+                || pResult->pFactor->pNumber->num < std::numeric_limits<int32_t>::min())
+                throw SyntaxError(
+                        p1->value == "*" ? "attempt to multiply with overflow" : "attempt to divide with overflow");
         }
         else
             pResult->vMulDivOpFactor.emplace_back(*p1, *p2);
@@ -315,10 +323,10 @@ std::shared_ptr<MyCompiler::Number> MyCompiler::RecursiveDescentParser::parse()
 
     if (sym != SymbolType::NUMBER)
         except(SymbolType::NUMBER, "number expected");
-    int32_t val;
+    int64_t val;
     std::istringstream in(currentToken.getValue());
     in >> std::noshowbase >> std::setbase(10) >> val;
-    if (in.fail())
+    if (in.fail() || val > std::numeric_limits<int32_t>::max() || val < std::numeric_limits<int32_t>::min())
         except(SymbolType::NUMBER, "this number is too large");
     pResult->setNum(val);
     std::ostringstream out;

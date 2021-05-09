@@ -171,11 +171,11 @@ namespace MyCompiler
     // number = ( "0" | "1" | ... | "9" ) { "0" | "1" | ... | "9" }
     struct Number : AbstractAstNode
     {
-        int32_t num{0};
+        int64_t num{0};
 
         Number();
 
-        void setNum(int32_t val);
+        void setNum(int64_t val);
     };
 
     // rel-op = "=" | "#" | "<" | "<=" | ">" | ">="
