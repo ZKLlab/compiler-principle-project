@@ -1,4 +1,5 @@
 #include <array>
+#include <fstream>
 #include <iostream>
 #include <unordered_set>
 #include <vector>
@@ -22,7 +23,8 @@ int generate()
             parser.finish();
 
             MyCompiler::traverseIdentsExpression(*pAst, usedIdents);
-            std::cout << MyCompiler::visitExpression(*pAst, result, usedIdents, counter) << std::endl;
+            std::cout << MyCompiler::visitExpression(*pAst, result, usedIdents, counter)
+                      << "=" << line << std::endl;
 
             for (auto &item : result)
                 std::cout << "(" << item[0] << ", " << item[1] << ", " << item[2] << ", " << item[3] << ")"
@@ -42,7 +44,19 @@ int generate()
     return 0;
 }
 
-int main()
+int main(int argc, char *argv[])
 {
-    generate();
+    if (argc == 1)
+        return generate();
+    else
+        for (int i = 1; i < argc; i++)
+        {
+            std::ifstream fin(argv[i]);
+            auto cinBuf = std::cin.rdbuf(fin.rdbuf());
+            int code = generate();
+            if (code > 0)
+                return code;
+            fin.close();
+            std::cin.rdbuf(cinBuf);
+        }
 }

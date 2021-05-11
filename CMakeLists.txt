@@ -23,10 +23,11 @@ enable_testing()
 set(LABELS identifiers_counter
         lexical_analyzer
         recursive_descent_parser table_driven_parser rd_exp_parser rd_cond_parser
-        rd_exp_sdt)
+        rd_exp_sdt
+        ir_generation)
 set(CASES 1_Compare 2_Reverse 3_Chaos 4_Gcd 5_Unknown 6_Add 7_SortThree 8_Triangle 9_FullWidthSymbol
         10_Compare_Fix 11_Reverse_Fix 12_Expressions 13_Conditions
-        14_Calculator)
+        14_Calculator 15_ExpressionsWithVars)
 
 foreach (label ${LABELS})
     foreach (case ${CASES})
