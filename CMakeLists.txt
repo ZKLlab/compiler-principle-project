@@ -16,6 +16,7 @@ add_executable(test_table_driven_parser test/testTableDrivenParser.cpp)
 add_executable(test_rd_exp_parser test/testRdExpParser.cpp)
 add_executable(test_rd_cond_parser test/testRdCondParser.cpp)
 add_executable(test_rd_exp_sdt test/testRdExpSdt.cpp)
+add_executable(test_ir_generation test/testIrGeneration.cpp)
 
 enable_testing()
 
