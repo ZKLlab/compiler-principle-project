@@ -2,9 +2,7 @@
 
 MyCompiler::RecursiveDescentParser::RecursiveDescentParser(std::istream &stream)
         : stream(stream), currentToken(SymbolType::NUL)
-{
-    nextSym();
-}
+{}
 
 void MyCompiler::RecursiveDescentParser::nextSym()
 {
@@ -26,6 +24,11 @@ void MyCompiler::RecursiveDescentParser::except(SymbolType symbolType, const std
 {
     if (!accept(symbolType))
         throw SyntaxError(msg);
+}
+
+void MyCompiler::RecursiveDescentParser::start()
+{
+    nextSym();
 }
 
 void MyCompiler::RecursiveDescentParser::finish()

@@ -32,6 +32,8 @@ namespace MyCompiler
     public:
         explicit RecursiveDescentParser(std::istream &stream);
 
+        void start();
+
         void finish();
 
         template <typename T>

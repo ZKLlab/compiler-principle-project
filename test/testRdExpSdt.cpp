@@ -9,9 +9,10 @@ void calc()
     while (std::getline(std::cin, line))
     {
         std::istringstream in(line);
+        MyCompiler::RecursiveDescentParser parser(in);
         try
         {
-            MyCompiler::RecursiveDescentParser parser(in);
+            parser.start();
             auto pAst = parser.parse<MyCompiler::Expression>();
             parser.finish();
             if (pAst->pAddSubOp == nullptr && pAst->pTerm->pFactor->caseNum == 1 &&

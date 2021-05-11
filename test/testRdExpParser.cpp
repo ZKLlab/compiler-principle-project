@@ -10,9 +10,10 @@ void parse()
     while (std::getline(std::cin, line))
     {
         std::istringstream in(line);
+        MyCompiler::RecursiveDescentParser parser(in);
         try
         {
-            MyCompiler::RecursiveDescentParser parser(in);
+            parser.start();
             auto pAst = parser.parse<MyCompiler::Expression>();
             parser.finish();
             std::cout << "ok" << std::endl;
